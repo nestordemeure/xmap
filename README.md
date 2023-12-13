@@ -2,11 +2,11 @@
 
 An alternative `xmap` implementation for [Jax](https://github.com/google/jax).
 
-Jax famously has a [`vmap`](https://jax.readthedocs.io/en/latest/_autosummary/jax.vmap.html) vectorizing function, which lets you batch a function along a given axis. Making it trivial to take a function and apply it to arrays efficiently.
+Jax famously has a [`vmap`](https://jax.readthedocs.io/en/latest/_autosummary/jax.vmap.html) vectorizing function, which lets you batch a function along a given axis. Making it trivial to take a function and apply it to arrays efficiently.  
 However, lines like `vmap(f, (0, 1), 0)` can lack readability, to the point that they are often commented along the lines of `([b,a], [a,b]) -> [b]`.
 
-The `experimental.maps` namespace contains a [`xmap`](https://jax.readthedocs.io/en/latest/_autosummary/jax.experimental.maps.xmap.html) function that solves this problem elegantly using named axis (the prior example would become something like `xmap(f, in_axes=(['b', ...], [..., 'b']), out_axes=['b'])`) *and* lets you vectorize over multiple axis simultaneously (something that would require consecutive calls to `vmap` and quickly becomes messy).
-But, `xmap` encapsulate a lot of other things (like resource repartition and jitting the code), [does not play well wit static arguments](https://github.com/google/jax/issues/10741), and overall is in the `experimental` namespace for a reason: it is the part of your codebase that is the most likely to break when you update your Jax version.
+The `experimental.maps` namespace contains a [`xmap`](https://jax.readthedocs.io/en/latest/_autosummary/jax.experimental.maps.xmap.html) function that solves this problem elegantly using named axis (the prior example would become something like `xmap(f, in_axes=(['b', ...], [..., 'b']), out_axes=['b'])`) *and* lets you vectorize over multiple axis simultaneously (something that would require consecutive calls to `vmap` and quickly becomes messy).  
+But, `xmap` encapsulate a lot of other things (like resource repartition and jitting the code), [does not play well with static arguments](https://github.com/google/jax/issues/10741), and overall is in the `experimental` namespace for a reason: it is the part of your codebase that is the most likely to break when you update your Jax version.
 
 This library provide you with a `xmap` implementation that:
 
